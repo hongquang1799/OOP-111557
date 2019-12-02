@@ -14,10 +14,10 @@ import java.time.Clock;;
 
 public class App {
 	
-	static final int entityTotalCount = 60000;
-	static final int entityBatchCount = 50;
-	static final int factTotalCount = 80000;
-	static final int factBatchCount = 50;
+	static final int ENTITY_TOTAL_COUNT = 100;
+	static final int ENTITY_BATCH_COUNT = 50;
+	static final int FACT_TOTAL_COUNT = 200;
+	static final int FACT_BATCH_COUNT = 50;
 	
 	static final String[] NORMAL_QUERRIES = {
 				"FOR u IN entities FILTER u._key == \"PERSON1000\" RETURN u.description",
@@ -34,16 +34,16 @@ public class App {
 			};
 	
 	static final String[] ADVANCED_QUERRIES = {
-			"FOR u IN facts FILTER u.relationship == \"DIEN_RA_TAI\" && u.objectID = \"CITY1000\" RETURN u.description",
-			"FOR u IN facts FILTER u.relationship == \"GAP_GO\" && u.objectID = \"PERSON1000\" RETURN u.description",
-			"FOR u IN facts FILTER u.relationship == \"TO_CHUC\" && u.objectID = \"CITY1000\" RETURN u.description",
-			"FOR u IN facts FILTER u.relationship == \"KY_THOA_THUAN\" && u.objectID = \"ORGANIZATION1000\" RETURN u.description",
-			"FOR u IN facts FILTER u.relationship == \"PHAN_DOI\" && u.subjectID = \"ORGANIZATION1000\" RETURN u.description",
-			"FOR u IN facts FILTER u.relationship == \"THAM_GIA\" && u.subjectID = \"EVENT1000\" RETURN u.description",
-			"FOR u IN facts FILTER u.relationship == \"UNG_HO\" && u.objectID = \"ORGANIZATION1000\" RETURN u.description",
-			"FOR u IN facts FILTER u.relationship == \"PHAT_BIEU_TAI\" && u.objectID = \"CITY1000\" RETURN u.description",
-			"FOR u IN facts FILTER u.relationship == \"HUY_BO\" && u.objectID = \"ORGANIZATION1000\" RETURN u.description",
-			"FOR u IN facts FILTER u.relationship == \"HUY_BO\" && u.objectID = \"ORGANIZATION1000\" RETURN u.description",
+			"FOR u IN facts FILTER u.relationship == \"DIEN_RA_TAI\" && u.objectID = \"CITY1000\" RETURN u.subjectID",
+			"FOR u IN facts FILTER u.relationship == \"GAP_GO\" && u.objectID = \"PERSON1000\" RETURN u.subjectID",
+			"FOR u IN facts FILTER u.relationship == \"TO_CHUC\" && u.objectID = \"CITY1000\" RETURN u.subjectID",
+			"FOR u IN facts FILTER u.relationship == \"KY_THOA_THUAN\" && u.objectID = \"ORGANIZATION1000\" RETURN u.subjectID",
+			"FOR u IN facts FILTER u.relationship == \"PHAN_DOI\" && u.subjectID = \"ORGANIZATION1000\" RETURN u.objectID",
+			"FOR u IN facts FILTER u.relationship == \"THAM_GIA\" && u.subjectID = \"EVENT1000\" RETURN u.objectID",
+			"FOR u IN facts FILTER u.relationship == \"UNG_HO\" && u.objectID = \"ORGANIZATION1000\" RETURN u.subjectID",
+			"FOR u IN facts FILTER u.relationship == \"PHAT_BIEU_TAI\" && u.objectID = \"CITY1000\" RETURN u.subjectID",
+			"FOR u IN facts FILTER u.relationship == \"HUY_BO\" && u.objectID = \"ORGANIZATION1000\" RETURN u.subjectID",
+			"FOR u IN facts FILTER u.relationship == \"HUY_BO\" && u.objectID = \"ORGANIZATION1000\" RETURN u.subjectID",
 		};
 	
 
@@ -63,12 +63,16 @@ public class App {
 		db.dropCollection(dbName, entityCollectionName);
 		db.dropCollection(dbName, factCollectionName);
 		db.createCollection(dbName, entityCollectionName);
-		db.createCollection(dbName, factCollectionName);
+		db.createCollection(dbName, factCollectionName);//
 
+		System.out.println("Entity Total: " + ENTITY_TOTAL_COUNT);
+		System.out.println("Entity Batch: " + ENTITY_BATCH_COUNT);
+		System.out.println("Fact Total: " + FACT_TOTAL_COUNT);
+		System.out.println("Fact Batch: " + FACT_BATCH_COUNT);
 		System.out.println("     SDL	TVCB1	TVCB2	TVCB3	TVCB4	TVCB5	TVCB6	TVCB7	TVCB8	TVCB9	TVCB10");
 		
 		time.begin();
-		DataGenerator.Generate(entityTotalCount, entityBatchCount, factTotalCount, factBatchCount, db, dbName, entityCollectionName, factCollectionName);
+		DataGenerator.Generate(ENTITY_TOTAL_COUNT, ENTITY_BATCH_COUNT, FACT_TOTAL_COUNT, FACT_BATCH_COUNT, db, dbName, entityCollectionName, factCollectionName);
 		time.end();
 		System.out.print(String.format("%8.1f    ", time.get()));
 		
@@ -78,7 +82,7 @@ public class App {
 			ArrayList<String> result = db.executeQuery(dbName, NORMAL_QUERRIES[i]);
 			time.end();
 			System.out.print(String.format("%8.1f", time.get()));
-			//result.forEach(s -> System.out.println(s));
+			result.forEach(s -> System.out.println(s));
 		}
 		
 	}

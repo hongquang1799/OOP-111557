@@ -22,6 +22,6 @@
 			<attribute name="maven.scope" value="test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/New folder/jackson-databind-2.2.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/K1o/Documents/Eclipse/firstproject/libs/jackson-databind-2.2.3.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
